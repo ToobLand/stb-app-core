@@ -1,2 +1,2 @@
-# login_service
-Login api with token in NodeJS
+# Core backend
+Api for backend stb-app
