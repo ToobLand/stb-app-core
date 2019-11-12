@@ -1,0 +1,23 @@
+{
+  "name": "stb-app-core",
+  "version": "1.0.0",
+  "description": "Api for backend stb-app",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ToobLand/stb-app-core.git"
+  },
+  "author": "t landman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ToobLand/stb-app-core/issues"
+  },
+  "homepage": "https://github.com/ToobLand/stb-app-core#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1"
+  }
+}
