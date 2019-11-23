@@ -17,8 +17,15 @@
   },
   "homepage": "https://github.com/ToobLand/stb-app-core#readme",
   "dependencies": {
+    "bcrypt": "^3.0.7",
     "body-parser": "^1.19.0",
+    "crypto": "^1.0.1",
+    "cryptr": "^6.0.1",
     "express": "^4.17.1",
-    "mongodb": "^3.3.4"
+    "fecha": "^3.0.3",
+    "mongodb": "^3.3.4",
+    "nodemon": "^2.0.1",
+    "pg": "^7.14.0",
+    "validator": "^12.1.0"
   }
 }

@@ -3,6 +3,7 @@ const app= express();
 const bodyParser=require('body-parser');
 
 const moduleRoute = require('./api/routes/moduleRoute');
+const folderRoute = require('./api/routes/folderRoute');
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
@@ -17,11 +18,13 @@ app.use((req,res,next)=>{
 });
 
 
-app.use('/',moduleRoute);
+app.use('/folder',folderRoute);
+app.use('/module',moduleRoute);
+//app.use('/',moduleRoute);
 //app.get('/', (req, res) => res.send('olla bolla2!'))
 
 app.use((req,res,next)=>{
-    const error=new Error('Not found');
+    const error=new Error('Not found or forbidden');
     error.status=404;
     next(error);
 });
