@@ -1,6 +1,6 @@
 const { Client } = require('pg');
 let client;
-const make_connection=()=>{
+const make_connection=async ()=>{
     var local=false; // if deploying on Heroku use local = false
     
     if(local){
@@ -14,9 +14,12 @@ const make_connection=()=>{
             ssl: true,
         });
     }
-
+    try{
     client.connect();
     console.log('connectie gemaakt');
+    }catch(err){
+        return err;
+    }
     return client;
     
 }
