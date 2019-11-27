@@ -24,18 +24,41 @@ functionsList.validateSchema=async (title,body,type)=>{
         var values={};
         for (var key in schema.columns) {
             if(body.hasOwnProperty(key)){
-               
-                var value=body[key]; 
-                var checkit=functionsList.toDbFromClient(schema.columns[key],key,value);
-                if(checkit instanceof Error){
+               let get_condition=false; // for get requests it's possible to send a condition. so make sure it's correct and doesn't break this function
+                if(body[key] === Object(body[key]) && typeof body[key][1]!='undefined'){
                     
+                    if(Object.keys(body[key]).length==2){ // get condition added.
+                        // custom condition
+                        
+                        if(body[key][0]=="=" || body[key][0]==">=" || body[key][0]=="<=" || body[key][0]=="<" || body[key][0]==">" || body[key][0]=="!=" || body[key][0]=="IN"){
+                            get_condition=body[key][0];
+                            var value=body[key][1]; 
+                            
+                            var checkit=functionsList.toDbFromClient(schema.columns[key],key,value);
+                        }else{
+                            return new Error(title+" . "+key+" : Condition is not legit.");
+                        }
+                    }else{
+                        return new Error(title+" . "+key+" : Condition is not legit. { id:{'>=','10'} }");
+                    }
+                }else{
+                    var value=body[key]; 
+                    
+                    var checkit=functionsList.toDbFromClient(schema.columns[key],key,value);
+                }
+                if(checkit instanceof Error){
                     return checkit; // is error
                 }else{
-                    
-                    values[key]=checkit;
+                    if(get_condition){
+                        values[key]=[get_condition, checkit];
+                        
+                    }else{
+                        values[key]=checkit;
+                    }
                 }
             }else{
-               
+                if(type=='get'){ continue; } // if 'get' request, missing columns is no problem, is just for where values in query
+
                 if(schema.columns[key].required=='1'){
                     if(type=='new' && key=='id'){
                         // is oke. ID is autoincrement.

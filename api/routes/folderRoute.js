@@ -1,48 +1,70 @@
 const express = require('express');
 const router = express.Router();
 const folderSave=require('../model/folder/save');
-//const folderGet=require('../model/folder/get');
+const folderGet=require('../model/folder/get');
 //const folderDelete=require('../model/folder/delete');
 const functionsList=require('../model/functions');
+
+const table='folder'; // what's the table name. So standards work for save/get/delete 
+
 router.post('/:field', async (req,res,next)=>{
     const field= req.params.field;
-    if(field=='save'){ 
+    if(field=='save'){  //*************************************SAVE**********************************************
         if(req.body.hasOwnProperty("id")){  /////////////////// UPDATE ///////////////////////////////
             const id=parseInt(req.body.id);
             if(id>0){
                 try{
-                    //const body=validateSchema('folder',req.body,'new');
-                   console.log('gevalidat4ed');
-                    // const result=await folderSave.saveUpdate(body);
-                    result={ops:"test"};
-                    if(result){
-                        res.status(200).json(
-                            {
-                                type:'get', field:field, data:result.ops
-                            }
-                        );
+                    const body = await functionsList.validateSchema(table,req.body,'update');
+                    if(body instanceof Error){
+                        res.status(500).json({type:'update', error:body.message});
+                    }else{
+                        let result=await folderSave.saveUpdate(table,body);
+                        if(result instanceof Error){
+                            res.status(500).json({type:'update', error:result.message});
+                        }else{
+                            res.status(200).json({type:'update', result:result});
+                        }
                     }
-                }catch(err){
-                    res.status(500).json({
-                        error:err
-                    });
+                    }catch(err){
+                        res.status(500).json({type:'save', error:err});
+                    }
+            }
+        }else{  ////////////////// NEW RECORD, INSERT INTO /////////////
+            try{
+            const body = await functionsList.validateSchema(table,req.body,'new');
+            if(body instanceof Error){
+                res.status(500).json({type:'save', error:body.message});
+            }else{
+                let result=await folderSave.saveNew(table,body);
+                if(result instanceof Error){
+                    res.status(500).json({type:'save', error:result.message});
+                }else{
+                    res.status(200).json({type:'save', result:result});
                 }
             }
-        }else{  ////////////////// NEW INSERT INTO /////////////
-            const body = await functionsList.validateSchema('folder',req.body,'new');
-            if(body instanceof Error){
-                res.status(500).json(
-                    {
-                        type:'save', error:body.message
-                    }
-                );
-            }else{
-                res.status(200).json(
-                    {
-                        type:'save', body:body
-                    }
-                );
+            }catch(err){
+                res.status(500).json({type:'save', error:err});
             }
+        }
+    }
+    if(field=='get'){
+        let body={};
+        try{
+        if(req.body){
+            body = await functionsList.validateSchema(table,req.body,'get');
+        }
+        if(body instanceof Error){
+            res.status(500).json({type:'get', error:"1"+body.message});
+        }else{
+            let result=await folderGet.getIt(table,body);
+            if(result instanceof Error){
+                res.status(500).json({type:'get', error:"2"+result.message});
+            }else{
+                res.status(200).json({type:'get', result:result});
+            }
+        }
+        }catch(err){
+            res.status(500).json({type:'get', error:"3"+err});
         }
     }
 });  
