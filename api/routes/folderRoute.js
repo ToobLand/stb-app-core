@@ -3,7 +3,7 @@ const router = express.Router();
 const folderSave=require('../model/folder/save');
 //const folderGet=require('../model/folder/get');
 //const folderDelete=require('../model/folder/delete');
-//const functionsList=require('../model/functions');
+const functionsList=require('../model/functions');
 
 const table='folder'; // what's the table name. So standards work for save/get/delete 
 
@@ -14,8 +14,8 @@ router.post('/:field', async (req,res,next)=>{
             const id=parseInt(req.body.id);
             if(id>0){
                 try{
-                   // const body = await functionsList.validateSchema(table,req.body,'update');
-                   const body=req.body;
+                    const body = await functionsList.validateSchema(table,req.body,'update');
+                   //const body=req.body;
                     if(body instanceof Error){
                         res.status(500).json({type:'update', error:body.message});
                     }else{
