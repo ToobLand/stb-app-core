@@ -2,8 +2,8 @@ const express= require('express');
 const app= express();
 const bodyParser=require('body-parser');
 
-/*const moduleRoute = require('./api/routes/moduleRoute');
-const folderRoute = require('./api/routes/folderRoute');*/
+/*const moduleRoute = require('./api/routes/moduleRoute');*/
+const folderRoute = require('./api/routes/folderRoute');
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
@@ -17,13 +17,13 @@ app.use((req,res,next)=>{
     next();
 });
 
-/*
+
 app.use('/folder',folderRoute);
-app.use('/module',moduleRoute);
+/*app.use('/module',moduleRoute);
 */
 
 //app.use('/',moduleRoute);
-app.get('/', (req, res) => res.send('olla bolla2!'))
+//app.get('/', (req, res) => res.send('olla bolla2!'))
 
 app.use((req,res,next)=>{
     const error=new Error('Not found or forbidden');
