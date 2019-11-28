@@ -9,7 +9,7 @@ const fecha = require('fecha');
 const Cryptr = require('cryptr');
 const cryptr = new Cryptr(keys.encryptionKey);
 //const crypto=require('crypto');
-const bcrypt = require('bcrypt');
+//const bcrypt = require('bcrypt');
 const saltRounds = 10; // for bcrypt encryption
 // Some functions to help validate things or to convert values to right formats etc
 // useable for all model files
