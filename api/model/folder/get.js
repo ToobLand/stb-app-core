@@ -35,6 +35,14 @@ getList.getIt= async (table,body)=>{
                     return new Error(err);
                 }
              
+            }else{
+                try{
+                    let result=await client.query("SELECT * from "+table+" ");
+                    client.end();
+                    return result.rows;
+                }catch(err){
+                    return new Error(err);
+                }
             }
         }catch(err){
             return new Error(err);
