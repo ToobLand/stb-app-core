@@ -6,8 +6,8 @@ const keys={
 const validator = require('validator');
 //const fecha = require('fecha');
 
-//const Cryptr = require('cryptr');
-//const cryptr = new Cryptr(keys.encryptionKey);
+const Cryptr = require('cryptr');
+const cryptr = new Cryptr(keys.encryptionKey);
 //const crypto=require('crypto');
 //const bcrypt = require('bcrypt');
 //const saltRounds = 10; // for bcrypt encryption
