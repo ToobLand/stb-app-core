@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const folderSave=require('../model/folder/save');
-const folderGet=require('../model/folder/get');
+//const folderGet=require('../model/folder/get');
 //const folderDelete=require('../model/folder/delete');
-const functionsList=require('../model/functions');
+//const functionsList=require('../model/functions');
 
 const table='folder'; // what's the table name. So standards work for save/get/delete 
 
@@ -14,7 +14,8 @@ router.post('/:field', async (req,res,next)=>{
             const id=parseInt(req.body.id);
             if(id>0){
                 try{
-                    const body = await functionsList.validateSchema(table,req.body,'update');
+                   // const body = await functionsList.validateSchema(table,req.body,'update');
+                   const body=req.body;
                     if(body instanceof Error){
                         res.status(500).json({type:'update', error:body.message});
                     }else{
@@ -30,7 +31,7 @@ router.post('/:field', async (req,res,next)=>{
                     }
             }
         }else{  ////////////////// NEW RECORD, INSERT INTO /////////////
-            try{
+           /* try{
             const body = await functionsList.validateSchema(table,req.body,'new');
             if(body instanceof Error){
                 res.status(500).json({type:'save', error:body.message});
@@ -44,10 +45,10 @@ router.post('/:field', async (req,res,next)=>{
             }
             }catch(err){
                 res.status(500).json({type:'save', error:err});
-            }
+            } */
         }
     }
-    if(field=='get'){
+ /*   if(field=='get'){
         let body={};
         try{
         if(req.body){
@@ -66,6 +67,6 @@ router.post('/:field', async (req,res,next)=>{
         }catch(err){
             res.status(500).json({type:'get', error:"3"+err});
         }
-    }
+    }*/
 });  
 module.exports=router;

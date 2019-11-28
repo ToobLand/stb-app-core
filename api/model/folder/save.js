@@ -33,20 +33,24 @@ saveList.saveUpdate= async (table,body)=>{
     try{
         let client= await connect_postgres();
         let queryA="";  let once=true; let queryArr=new Array();let i=0;
+        let whereId='';
         for(let key in body){
-            i++;
-            if(once){
-                once=false;
+            if(key=='id'){
+                whereId=' id='+body[key]+' ';
             }else{
-                queryA+=", ";
+                i++;
+                if(once){
+                    once=false;
+                }else{
+                    queryA+=", ";
+                }
+                queryA+=key+"=$"+i;
                 
-            }
-            queryA+=key+"=$"+i;
-            
-            queryArr.push(body[key]);
+                queryArr.push(body[key]);
+             }
         }
         try{
-            let result=await client.query("UPDATE "+table+" SET "+queryA+" RETURNING id;", queryArr);
+            let result=await client.query("UPDATE "+table+" SET "+queryA+" WHERE "+whereId+" RETURNING id;", queryArr);
             client.end();
             return result;
         }catch(err){
