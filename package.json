@@ -21,7 +21,6 @@
   },
   "homepage": "https://github.com/ToobLand/stb-app-core#readme",
   "dependencies": {
-    "bcrypt": "^3.0.7",
     "body-parser": "^1.19.0",
     "crypto": "^1.0.1",
     "cryptr": "^6.0.1",
