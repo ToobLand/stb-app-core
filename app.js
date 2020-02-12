@@ -23,7 +23,7 @@ app.use('/folder',folderRoute);
 */
 
 //app.use('/',moduleRoute);
-app.get('/', (req, res) => res.send('olla bolla2!'))
+//app.get('/', (req, res) => res.send('olla bolla2!'))
 
 app.use((req,res,next)=>{
     const error=new Error('Not found or forbidden');
