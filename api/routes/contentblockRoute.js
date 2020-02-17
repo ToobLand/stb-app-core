@@ -4,7 +4,7 @@ const absSave=require('../model/abstract/save');
 const absGet=require('../model/abstract/get');
 const functionsList=require('../model/functions');
 
-const table='module'; // what's the table name. So standards work for save/get/delete 
+const table='contentblock'; // what's the table name. So standards work for save/get/delete 
 
 router.post('/:field', async (req,res,next)=>{
     const field= req.params.field;

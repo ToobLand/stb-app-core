@@ -4,6 +4,9 @@ const bodyParser=require('body-parser');
 
 /*const moduleRoute = require('./api/routes/moduleRoute');*/
 const folderRoute = require('./api/routes/folderRoute');
+const moduleRoute = require('./api/routes/moduleRoute');
+const contentblockRoute = require('./api/routes/contentblockRoute');
+//const scripts = require('./api/scripts/addTable');
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
@@ -19,6 +22,9 @@ app.use((req,res,next)=>{
 
 
 app.use('/folder',folderRoute);
+app.use('/module',moduleRoute);
+app.use('/contentblock',contentblockRoute);
+//app.use('/scripts/addTable',scripts);
 /*app.use('/module',moduleRoute);
 */
 
