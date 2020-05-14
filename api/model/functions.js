@@ -8,7 +8,7 @@ const fecha = require('fecha');
 const Cryptr = require('cryptr');
 const cryptr = new Cryptr(keys.encryptionKey);
 //const crypto=require('crypto');
-//const bcrypt = require('bcrypt'); -- is verwijderd, moet nog vervanging zoeken. werkt niet op heroku
+const bcrypt = require('bcryptjs'); //normale bcrypt werkt niet op Heroku
 //const saltRounds = 10; // for bcrypt encryption
 
 // Some functions to help validate things or to convert values to right formats etc
@@ -152,9 +152,10 @@ functionsList.toDbFromClient=(schemarow,key,value)=>{
     if(schemarow.encrypt=='2'){ // Encrypt > Cryptr. not searchable value for GET but stronger encryption. Decryption possible 
         value=cryptr.encrypt(value);
     }
-   /* if(schemarow.encrypt=='3'){ // Encrypt > Bcrypt. For passwords. no decryption possible not searchable. 
-        value=bcrypt.hashSync(value, saltRounds);
-    }*/
+    if(schemarow.encrypt=='3'){ // Encrypt > Bcrypt. For passwords. no decryption possible not searchable. 
+        var salt = bcrypt.genSaltSync(10);
+        value = bcrypt.hashSync(value, salt);
+    }
     return value;
 }
 /*

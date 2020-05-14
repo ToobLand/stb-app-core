@@ -5,7 +5,8 @@ connect_postgres=require('../data/postgres');
 router.get('/', async (req,res,next)=>{
 
     ///////// CHANGE NEXT VALUE TO WORK ////////
-//const table='module';
+/*
+const table='users';
 let client;
 try{
     client= await connect_postgres();
@@ -62,10 +63,11 @@ try{
     let result=await client.query("CREATE TABLE "+table+"("+query_string+")");
     
     //CREATE INDEX idx_address_phone ON address(phone);
- //   let result2=await client.query("CREATE INDEX idx_module_id_folder ON "+table+"(id_folder, id_user)");
+   let result2=await client.query("CREATE INDEX email ON "+table+"(email)");
 
     client.end();
     console.log(result);
+    console.log(result2);
     res.status(200).json({type:'get', result:result});
     
 }catch(err){

@@ -1,0 +1,9 @@
+{   "title":"questiontype",
+    "columns":{
+        "id":{"type":"int","key":"1","encrypt":"0","required":"1","standard_value":""},
+        "text":{"type":"text","key":"0","encrypt":"0","required":"0","standard_value":""},
+        "title":{"type":"varchar","key":"0","encrypt":"0","required":"0","standard_value":""},
+        "date_created":{"type":"date","key":"0","encrypt":"0","required":"0","standard_value":""},
+        "date_updated":{"type":"date","key":"0","encrypt":"0","required":"0","standard_value":""}
+    }
+}
