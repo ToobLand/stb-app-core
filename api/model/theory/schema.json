@@ -1,9 +1,9 @@
 {   "title":"theory",
     "columns":{
         "id":{"type":"int","key":"1","encrypt":"0","required":"1","standard_value":""},
-        "id_user":{"type":"int","key":"0","encrypt":"0","required":"1","standard_value":""},
+        "id_user":{"type":"int","key":"0","encrypt":"0","required":"0","standard_value":""},
         "title":{"type":"varchar","key":"0","encrypt":"0","required":"0","standard_value":""},
-        "text":{"type":"text","key":"0","encrypt":"0","required":"0","standard_value":""},
+        "text":{"type":"text","key":"0","encrypt":"0","required":"1","standard_value":""},
         "id_contentblock":{"type":"int","key":"0","encrypt":"0","required":"1","standard_value":""},
         "id_theoryTemplate":{"type":"int","key":"0","encrypt":"0","required":"1","standard_value":""},
         "tags":{"type":"varchar","key":"0","encrypt":"0","required":"0","standard_value":""},

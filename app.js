@@ -6,7 +6,10 @@ const bodyParser=require('body-parser');
 const folderRoute = require('./api/routes/folderRoute');
 const moduleRoute = require('./api/routes/moduleRoute');
 const contentblockRoute = require('./api/routes/contentblockRoute');
-const scripts = require('./api/scripts/addTable');
+const theoryRoute = require('./api/routes/theoryRoute');
+const answerRoute = require('./api/routes/answerRoute');
+const questionRoute = require('./api/routes/questionRoute');
+//const scripts = require('./api/scripts/addTable');
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
@@ -24,7 +27,10 @@ app.use((req,res,next)=>{
 app.use('/folder',folderRoute);
 app.use('/module',moduleRoute);
 app.use('/contentblock',contentblockRoute);
-app.use('/scripts/addTable',scripts);
+app.use('/theory',theoryRoute);
+app.use('/answer',answerRoute);
+app.use('/question',questionRoute);
+//app.use('/scripts/addTable',scripts);
 /*app.use('/module',moduleRoute);
 */
 
