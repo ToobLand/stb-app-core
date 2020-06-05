@@ -10,6 +10,7 @@ Als je test local zet local = true!!
 
 
 -- old --
-BCRYPT werkte niet op heroku. dus eruit gehaald
+BCRYPT werkte niet op heroku. dus eruit gehaald.
+edit: Bcrypt.js werkt wel. Dus die gebruikt
 
 --
