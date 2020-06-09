@@ -58,7 +58,15 @@ functionsList.validateSchema=async (title,body,type)=>{
                 }
             }else{
                 if(type=='get'){ continue; } // if 'get' request, missing columns is no problem, is just for where values in query
-
+                if(type=='update'){ // if 'update', missing collumns is no problem IF 'id' is givin.
+                    if(body.hasOwnProperty('id')){
+                        if(!validator.toInt(body['id'])){
+                            return new Error(title +' . id : Has to be an INTEGER for update');
+                        }else{
+                            continue;
+                        }
+                    }   
+                }
                 if(schema.columns[key].required=='1'){
                     if(type=='new' && key=='id'){
                         // is oke. ID is autoincrement.
