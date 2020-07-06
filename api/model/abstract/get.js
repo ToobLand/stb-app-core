@@ -1,4 +1,4 @@
-connect_postgres=require('../../data/postgres');
+connect_postgres=require('../../services/shared/connection/postgres');
 const getList={};
 getList.getIt= async (table,body)=>{
         try{

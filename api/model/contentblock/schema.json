@@ -1,4 +1,5 @@
 {   "title":"contentblock",
+    "custom_endpoint":"0",
     "columns":{
         "id":{"type":"int","key":"1","encrypt":"0","required":"1","standard_value":""},
         "id_user":{"type":"int","key":"0","encrypt":"0","required":"1","standard_value":""},
