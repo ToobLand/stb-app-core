@@ -37,42 +37,54 @@ functionsList.toDbFromClient=(schemarow,key,value)=>{
     if(schemarow.type=='varchar' || schemarow.type=='text'){
         schemarow.type='string';
     }
+    
     if(typeof value!='string'){
-        return new Error(' . '+key+' : Every value in a JSON body should be an string. This is may be an object or something else. Not valid to save in sql');
-    }
-    if(schemarow.type=='int'){ // validate INTEGER
-       
-        if(!validator.toInt(value)){
-            return new Error(' . '+key+' : Has to be an INTEGER');
+        
+        if(schemarow.type=='int'){
+            
+            if(!functionsList.checkInt(value)){
+                return new Error(' Every value in a JSON body should be a STRING and can sometimes be an INT. In this case it has to be an INT. (is now probably a function or object)');
+            }
+        }else{
+            return new Error(' This value in the JSON body should be a string. This is maybe an object or something else.');
         }
-        if(value!=validator.toInt(value)){
-            return new Error(' . '+key+' : Has to be an INTEGER');
+    }
+    
+    if(schemarow.type=='int'){ // validate INTEGER
+        if(typeof value=='string'){
+            if(!validator.toInt(value)){
+                return new Error('  Has to be an INTEGER');
+            }
+        
+        if(value!=parseInt(value)){
+            return new Error(' Has to be an INTEGER');
         }
         value=validator.toInt(value);
+        }
         if(!functionsList.checkInt(value)){
-            return new Error(' . '+key+' : Has to be an INTEGER');
+            return new Error(' Has to be an INTEGER');
         }
     }
     if(schemarow.type=='string'){ // validate & encode STRING
         value=validator.escape(value);
         if(value=="" && schemarow.required=='1'){
-            return new Error(' . '+key+' : Needs to be a string and is required');
+            return new Error('  Needs to be a string and is required');
         }
     }
     if(schemarow.type=='datetime'){ // validate & convert DATETIME
         // post value must be a timestamp!
         if(!validator.toInt(value)){
-            return new Error(' . '+key+' : Has to be an TIMESTAMP');
+            return new Error('  Has to be an TIMESTAMP');
         }
         value=validator.toInt(value);
         if(!functionsList.checkInt(value)){
-            return new Error(' . '+key+' : Has to be an TIMESTAMP');
+            return new Error('  Has to be an TIMESTAMP');
         }
        if((new Date(value)).getTime() > 0){
             // convert timestamp to datetime
             value=fecha.format(new Date(value), 'YYYY-MM-DD hh:mm:ss.SSS'); 
         }else{
-            return new Error(' . '+key+' : Has to be an TIMESTAMP');
+            return new Error('  Has to be an TIMESTAMP');
         } 
     }
     if(schemarow.type=='email'){ // validate EMAIL
@@ -80,7 +92,7 @@ functionsList.toDbFromClient=(schemarow,key,value)=>{
         if(validator.isEmail(value)){                    
             value=validator.normalizeEmail(value,{all_lowercase:true});
         }else{
-            return new Error(' . '+key+' : Has to be an valid e-mailadress');
+            return new Error('  Has to be an valid e-mailadress');
         }
     }
     if(schemarow.encrypt=='1'){ // Encrypt > AES encrypt. (searchable for get requests) and decryption possible

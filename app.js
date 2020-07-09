@@ -1,17 +1,9 @@
-const express= require('express');
+import express from 'express';
 const app= express();
-const bodyParser=require('body-parser');
+import { urlencoded, json } from 'body-parser';
 
-/*const moduleRoute = require('./api/routes/moduleRoute');*/
-const folderRoute = require('./api/routes/folderRoute');
-const moduleRoute = require('./api/routes/moduleRoute');
-const contentblockRoute = require('./api/routes/contentblockRoute');
-const theoryRoute = require('./api/routes/theoryRoute');
-const answerRoute = require('./api/routes/answerRoute');
-const questionRoute = require('./api/routes/questionRoute');
-//const scripts = require('./api/scripts/addTable');
-app.use(bodyParser.urlencoded({extended:false}));
-app.use(bodyParser.json());
+app.use(urlencoded({extended:false}));
+app.use(json());
 
 app.use((req,res,next)=>{
     res.header('Access-Control-Allow-Origin','*');
@@ -23,23 +15,11 @@ app.use((req,res,next)=>{
     next();
 });
 
-app.use((req,res,next)=>{
-   // const field= req.params.field;
-    console.log(req);
-});
- 
-app.use('/folder',folderRoute);
-app.use('/module',moduleRoute);
-app.use('/contentblock',contentblockRoute);
-app.use('/theory',theoryRoute);
-app.use('/answer',answerRoute);
-app.use('/question',questionRoute);
+//const scripts = require('./api/scripts/addTable');
 //app.use('/scripts/addTable',scripts);
-/*app.use('/module',moduleRoute);
-*/
 
-//app.use('/',moduleRoute);
-//app.get('/', (req, res) => res.send('olla bolla2!'))
+import routes from './api/controllers/routes';
+app.post(['/save','/get','/delete'], routes);
 
 app.use((req,res,next)=>{
     const error=new Error('Not found or forbidden');
@@ -56,4 +36,4 @@ app.use((error,req,res,next)=>{
     })
 });
 
-module.exports=app; 
+export defaultapp; 

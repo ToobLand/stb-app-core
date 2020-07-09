@@ -3,10 +3,11 @@ sanitize_escape=require('./sanitize_escape');
 const functionsList={};
 
 functionsList.validateSchema=async (title,body,type)=>{
+    console.log('validate');
     if(title==''){
         return new Error('error in script. titel van object mee geven');
     }else{
-        const schema = require('./'+title+'/schema.json');
+        const schema = require('../../../model/'+title+'/schema.json');
         var values={};
         for (var key in schema.columns) {
             if(body.hasOwnProperty(key)){
@@ -22,10 +23,10 @@ functionsList.validateSchema=async (title,body,type)=>{
                             
                             var checkit=sanitize_escape.toDbFromClient(schema.columns[key],key,value);
                         }else{
-                            return new Error(title+" . "+key+" : Condition is not legit.");
+                            return new Error(title+"."+key+" : Condition is not legit.");
                         }
                     }else{
-                        return new Error(title+" . "+key+" : Condition is not legit. { id:{'>=','10'} }");
+                        return new Error(title+"."+key+" : Condition is not legit. { id:{'>=','10'} }");
                     }
                 }else{
                     var value=body[key]; 
@@ -33,7 +34,7 @@ functionsList.validateSchema=async (title,body,type)=>{
                     var checkit=sanitize_escape.toDbFromClient(schema.columns[key],key,value);
                 }
                 if(checkit instanceof Error){
-                    return checkit; // is error
+                    return new Error(title+"."+key+" : "+checkit.message); // is error
                 }else{
                     if(get_condition){
                         values[key]=[get_condition, checkit];
@@ -43,10 +44,10 @@ functionsList.validateSchema=async (title,body,type)=>{
                 }
             }else{
                 if(type=='get'){ continue; } // if 'get' request, missing columns is no problem, is just for where values in query
-                if(type=='update'){ // if 'update', missing collumns is no problem IF 'id' is givin.
+                if(type=='update'){ // if 'update', missing collumns is no problem IF 'id' is present.
                     if(body.hasOwnProperty('id')){
                         if(!validator.toInt(body['id'])){
-                            return new Error(title +' . id : Has to be an INTEGER for update');
+                            return new Error(title +'.id : Has to be an INTEGER for update');
                         }else{
                             continue;
                         }
@@ -57,7 +58,7 @@ functionsList.validateSchema=async (title,body,type)=>{
                         // is oke. ID is autoincrement.
                     }else{
                        
-                        return new Error(title+' . '+key+' : This column (key) is required');
+                        return new Error(title+'.'+key+' : This column (key) is required');
                     }
                 }else{
                     if(schema.columns[key].standard_value!=''){
