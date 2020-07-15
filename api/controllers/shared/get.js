@@ -1,9 +1,8 @@
-import { getIt } from "../../services/shared/get/get";
+const shared_service_get_sql = require("../../services/shared/get/get");
 
 const get = async (body, table) => {
-	let body = {};
 	try {
-		let result = await getIt(table, body);
+		let result = await shared_service_get_sql.getIt(table, body);
 		if (result instanceof Error) {
 			return new Error(result.message);
 		} else {
@@ -14,4 +13,4 @@ const get = async (body, table) => {
 	}
 };
 
-export default get;
+module.exports = get;

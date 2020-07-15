@@ -1,2 +1,0 @@
-const shared_objects=['folder','module','contentblock','theory','answer','question','user'];
-const custom_objects=['excercise'];

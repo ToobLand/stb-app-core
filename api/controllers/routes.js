@@ -1,7 +1,7 @@
-import { Router } from "express";
-const router = Router();
+const express = require("express");
+const router = express.Router();
 
-import { shared, custom } from "./endpoints.json"; // get list of endpoints. custom or shared(default) crud services for endpoint.
+const endpoints = require("./endpoints.json"); // get list of endpoints. custom or shared(default) crud services for endpoint.
 
 router.post("/:field", async (req, res, next) => {
 	const table = req.params.field;
@@ -9,12 +9,12 @@ router.post("/:field", async (req, res, next) => {
 	let controllerCustom;
 	if (req.baseUrl === "/save") {
 		// SAVE //
-		controllerShared = require("./shared/save").default.default;
+		controllerShared = require("./shared/save");
 		controllerCustom = require("./custom/save");
 	}
 	if (req.baseUrl === "/get") {
 		// GET //
-		controllerShared = require("./shared/get").default;
+		controllerShared = require("./shared/get");
 		controllerCustom = require("./custom/get");
 	}
 	if (req.baseUrl === "/delete") {
@@ -24,9 +24,9 @@ router.post("/:field", async (req, res, next) => {
 	}
 	try {
 		let result;
-		if (shared.hasOwnProperty(table)) {
+		if (endpoints.shared.hasOwnProperty(table)) {
 			result = await controllerShared(req.body, table);
-		} else if (custom.hasOwnProperty(table)) {
+		} else if (endpoints.custom.hasOwnProperty(table)) {
 			result = await controllerCustom(req.body, table);
 		} else {
 			res
@@ -42,4 +42,4 @@ router.post("/:field", async (req, res, next) => {
 		res.status(500).json({ type: req.baseUrl, error: err });
 	}
 });
-export default router;
+module.exports = router;

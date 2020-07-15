@@ -1,76 +1,105 @@
-sanitize_escape=require('./sanitize_escape');
+sanitize_escape = require("./sanitize_escape");
 
-const functionsList={};
+const functionsList = {};
 
-functionsList.validateSchema=async (title,body,type)=>{
-    console.log('validate');
-    if(title==''){
-        return new Error('error in script. titel van object mee geven');
-    }else{
-        const schema = require('../../../model/'+title+'/schema.json');
-        var values={};
-        for (var key in schema.columns) {
-            if(body.hasOwnProperty(key)){
-               let get_condition=false; // for get requests it's possible to send a condition. so make sure it's correct and doesn't break this function
-                if(body[key] === Object(body[key]) && typeof body[key][1]!='undefined'){
-                    
-                    if(Object.keys(body[key]).length==2){ // get condition added.
-                        // custom condition
-                        
-                        if(body[key][0]=="=" || body[key][0]==">=" || body[key][0]=="<=" || body[key][0]=="<" || body[key][0]==">" || body[key][0]=="!=" || body[key][0]=="IN"){
-                            get_condition=body[key][0];
-                            var value=body[key][1]; 
-                            
-                            var checkit=sanitize_escape.toDbFromClient(schema.columns[key],key,value);
-                        }else{
-                            return new Error(title+"."+key+" : Condition is not legit.");
-                        }
-                    }else{
-                        return new Error(title+"."+key+" : Condition is not legit. { id:{'>=','10'} }");
-                    }
-                }else{
-                    var value=body[key]; 
-                    
-                    var checkit=sanitize_escape.toDbFromClient(schema.columns[key],key,value);
-                }
-                if(checkit instanceof Error){
-                    return new Error(title+"."+key+" : "+checkit.message); // is error
-                }else{
-                    if(get_condition){
-                        values[key]=[get_condition, checkit];
-                    }else{
-                        values[key]=checkit;
-                    }
-                }
-            }else{
-                if(type=='get'){ continue; } // if 'get' request, missing columns is no problem, is just for where values in query
-                if(type=='update'){ // if 'update', missing collumns is no problem IF 'id' is present.
-                    if(body.hasOwnProperty('id')){
-                        if(!validator.toInt(body['id'])){
-                            return new Error(title +'.id : Has to be an INTEGER for update');
-                        }else{
-                            continue;
-                        }
-                    }   
-                }
-                if(schema.columns[key].required=='1'){
-                    if(type=='new' && key=='id'){
-                        // is oke. ID is autoincrement.
-                    }else{
-                       
-                        return new Error(title+'.'+key+' : This column (key) is required');
-                    }
-                }else{
-                    if(schema.columns[key].standard_value!=''){
-                        values[key]=schema.columns[key].standard_value;
-                    }
-                }
-            }
-        }
-        return values;
-    }
-}
-module.exports=functionsList;
+functionsList.validateSchema = async (title, body, type) => {
+	if (title == "") {
+		return new Error("error in script. titel van object mee geven");
+	} else {
+		const schema = require("../../../model/" + title + "/schema.json");
+		var values = {};
+		for (var key in schema.columns) {
+			if (body.hasOwnProperty(key)) {
+				let get_condition = false; // for get requests it's possible to send a condition. so make sure it's correct and doesn't break this function
+				if (
+					body[key] === Object(body[key]) &&
+					typeof body[key][1] != "undefined"
+				) {
+					if (Object.keys(body[key]).length == 2) {
+						// get condition added.
+						// custom condition
+
+						if (
+							body[key][0] == "=" ||
+							body[key][0] == ">=" ||
+							body[key][0] == "<=" ||
+							body[key][0] == "<" ||
+							body[key][0] == ">" ||
+							body[key][0] == "!=" ||
+							body[key][0] == "IN"
+						) {
+							get_condition = body[key][0];
+							var value = body[key][1];
+
+							var checkit = sanitize_escape.toDbFromClient(
+								schema.columns[key],
+								key,
+								value
+							);
+						} else {
+							return new Error(
+								title + "." + key + " : Condition is not legit."
+							);
+						}
+					} else {
+						return new Error(
+							title +
+								"." +
+								key +
+								" : Condition is not legit. { id:{'>=','10'} }"
+						);
+					}
+				} else {
+					var value = body[key];
+
+					var checkit = sanitize_escape.toDbFromClient(
+						schema.columns[key],
+						key,
+						value
+					);
+				}
+				if (checkit instanceof Error) {
+					return new Error(title + "." + key + " : " + checkit.message); // is error
+				} else {
+					if (get_condition) {
+						values[key] = [get_condition, checkit];
+					} else {
+						values[key] = checkit;
+					}
+				}
+			} else {
+				if (type == "get") {
+					continue;
+				} // if 'get' request, missing columns is no problem, is just for where values in query
+				if (type == "update") {
+					// if 'update', missing collumns is no problem IF 'id' is present.
+					if (body.hasOwnProperty("id")) {
+						if (!validator.toInt(body["id"])) {
+							return new Error(title + ".id : Has to be an INTEGER for update");
+						} else {
+							continue;
+						}
+					}
+				}
+				if (schema.columns[key].required == "1") {
+					if (type == "new" && key == "id") {
+						// is oke. ID is autoincrement.
+					} else {
+						return new Error(
+							title + "." + key + " : This column (key) is required"
+						);
+					}
+				} else {
+					if (schema.columns[key].standard_value != "") {
+						values[key] = schema.columns[key].standard_value;
+					}
+				}
+			}
+		}
+		return values;
+	}
+};
+module.exports = functionsList;
 
 /*
 // DE ARRAY MET OBJECTEN UIT DE MYSQL WEER LEESBAAR MAKEN VOOR CLIENT

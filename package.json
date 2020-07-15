@@ -1,35 +1,35 @@
 {
-  "name": "stb-app-core",
-  "version": "1.0.0",
-  "description": "Api for backend stb-app",
-  "main": "server.js",
-  "engines": {
-    "node": "10.13.0"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ToobLand/stb-app-core.git"
-  },
-  "author": "t landman",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ToobLand/stb-app-core/issues"
-  },
-  "homepage": "https://github.com/ToobLand/stb-app-core#readme",
-  "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.19.0",
-    "crypto": "^1.0.1",
-    "cryptr": "^6.0.1",
-    "express": "^4.17.1",
-    "fecha": "^3.0.3",
-    "mongodb": "^3.3.4",
-    "nodemon": "^2.0.1",
-    "pg": "^7.14.0",
-    "validator": "^12.1.0"
-  }
+	"name": "stb-app-core",
+	"version": "1.0.0",
+	"description": "Api for backend stb-app",
+	"main": "server.js",
+	"engines": {
+		"node": "10.13.0"
+	},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node server.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ToobLand/stb-app-core.git"
+	},
+	"author": "t landman",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/ToobLand/stb-app-core/issues"
+	},
+	"homepage": "https://github.com/ToobLand/stb-app-core#readme",
+	"dependencies": {
+		"bcryptjs": "^2.4.3",
+		"body-parser": "^1.19.0",
+		"crypto": "^1.0.1",
+		"cryptr": "^6.0.1",
+		"express": "^4.17.1",
+		"fecha": "^3.0.3",
+		"mongodb": "^3.3.4",
+		"nodemon": "^2.0.1",
+		"pg": "^7.14.0",
+		"validator": "^12.1.0"
+	}
 }
