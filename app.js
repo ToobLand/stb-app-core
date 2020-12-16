@@ -21,8 +21,8 @@ app.use((req, res, next) => {
 //const scripts = require('./api/scripts/addTable');
 //app.use('/scripts/addTable',scripts);
 
-const routes = require("./api/controllers/routes");
-app.use(["/save", "/get", "/delete"], routes);
+const routes = require("./api/routes/routes");
+app.use(["/save", "/get", "/delete", "/custom"], routes);
 
 app.use((req, res, next) => {
 	const error = new Error("Not found or forbidden");

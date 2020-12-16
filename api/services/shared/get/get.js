@@ -47,6 +47,7 @@ getList.getIt = async (table, body) => {
 				}
 			}
 			whereStatement = where.join(" AND ");
+
 			try {
 				let result = await client.query(
 					"SELECT * from " + table + " WHERE " + whereStatement + " ",

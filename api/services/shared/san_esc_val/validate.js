@@ -1,4 +1,5 @@
 sanitize_escape = require("./sanitize_escape");
+const validator = require("validator");
 
 const functionsList = {};
 

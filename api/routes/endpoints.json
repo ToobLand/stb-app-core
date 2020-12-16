@@ -1,0 +1,29 @@
+{
+	"readme_for_crud_services": [
+		" ------------1st value -- Privacy level ------",
+		"0 = Disabled",
+		"1 = Enabled for every request from everybody",
+		"2 = Everbody that is logged in and admins",
+		"3 = Everbody that is logged in and is connected to content and admins",
+		"4 = Enabled if id_user in table is same as active login and admins",
+		"5 = Enabled only for admins",
+		" ------------2nd value---what role----------- ",
+		"0 = for every role user",
+		"1 = for teacher role",
+		"2 = for student"
+	],
+
+	"shared": {
+		"folder": { "save": [4, 1], "get": [3, 0], "delete": [4, 0] },
+		"module": { "save": [4, 1], "get": [3, 0], "delete": [4, 0] },
+		"contentblock": { "save": [4, 1], "get": [3, 0], "delete": [4, 0] },
+		"theory": { "save": [4, 1], "get": [3, 0], "delete": [4, 0] },
+		"answer": { "save": [4, 1], "get": [3, 0], "delete": [4, 0] },
+		"question": { "save": [4, 1], "get": [3, 0], "delete": [4, 0] },
+		"users": { "save": [1, 0], "get": [4, 0], "delete": [4, 0] }
+	},
+	"custom": {
+		"excercise": { "save": [1, 1], "get": [1, 1], "delete": [1, 1] },
+		"login": { "controller": "custom/login.js", "login": [1, 0] }
+	}
+}

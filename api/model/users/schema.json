@@ -1,14 +1,76 @@
-{   "title":"users",
-    "custom_endpoint":"0",
-    "columns":{
-        "id":{"type":"int","key":"1","encrypt":"0","required":"1","standard_value":""},
-        "role":{"type":"int","key":"0","encrypt":"0","required":"1","standard_value":""},
-        "firstname":{"type":"varchar","key":"0","encrypt":"1","required":"0","standard_value":""},
-        "middlename":{"type":"varchar","key":"0","encrypt":"1","required":"0","standard_value":""},
-        "lastname":{"type":"varchar","key":"0","encrypt":"1","required":"0","standard_value":""},
-        "password":{"type":"varchar","key":"0","encrypt":"3","required":"0","standard_value":""},
-        "email":{"type":"email","key":"0","encrypt":"2","required":"1","standard_value":""},
-        "date_created":{"type":"date","key":"0","encrypt":"0","required":"0","standard_value":""},
-        "date_updated":{"type":"date","key":"0","encrypt":"0","required":"0","standard_value":""}
-    }
+{
+	"title": "users",
+	"custom_endpoint": "0",
+	"columns": {
+		"id": {
+			"type": "int",
+			"key": "1",
+			"encrypt": "0",
+			"required": "1",
+			"standard_value": ""
+		},
+		"role": {
+			"type": "int",
+			"key": "0",
+			"encrypt": "0",
+			"required": "1",
+			"standard_value": ""
+		},
+		"firstname": {
+			"type": "varchar",
+			"key": "0",
+			"encrypt": "1",
+			"required": "0",
+			"standard_value": ""
+		},
+		"middlename": {
+			"type": "varchar",
+			"key": "0",
+			"encrypt": "1",
+			"required": "0",
+			"standard_value": ""
+		},
+		"lastname": {
+			"type": "varchar",
+			"key": "0",
+			"encrypt": "1",
+			"required": "0",
+			"standard_value": ""
+		},
+		"password": {
+			"type": "varchar",
+			"key": "0",
+			"encrypt": "3",
+			"required": "0",
+			"standard_value": ""
+		},
+		"email": {
+			"type": "email",
+			"key": "0",
+			"encrypt": "1",
+			"required": "1",
+			"standard_value": ""
+		},
+		"refresh": {
+			"type": "varchar",
+			"key": "0",
+			"encrypt": "0",
+			"required": "0",
+			"standard_value": ""
+		},
+		"date_created": {
+			"type": "date",
+			"key": "0",
+			"encrypt": "0",
+			"required": "0",
+			"standard_value": ""
+		},
+		"date_updated": {
+			"type": "date",
+			"key": "0",
+			"encrypt": "0",
+			"required": "0",
+			"standard_value": ""
+		}
+	}
 }
