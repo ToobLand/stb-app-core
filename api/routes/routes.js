@@ -44,7 +44,17 @@ router.post("/:field", checkAuth, async (req, res, next) => {
 		if (result instanceof Error) {
 			res.status(500).json({ type: req.baseUrl, error: result.message });
 		} else {
-			res.status(200).json({ type: req.baseUrl, result: result });
+			if (res.refreshToken) {
+				res
+					.status(200)
+					.json({
+						refreshToken: res.refreshToken,
+						type: req.baseUrl,
+						result: result,
+					});
+			} else {
+				res.status(200).json({ type: req.baseUrl, result: result });
+			}
 		}
 	} catch (err) {
 		res.status(500).json({ type: req.baseUrl, error: err });
