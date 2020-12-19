@@ -75,8 +75,7 @@ module.exports = async (req, res, next) => {
 		//----------- Check if refreshToken should be send ---------------------//
 
 		const expireTime = parseInt(decoded.exp);
-		//const refreshTime = parseInt(decoded.iat) + 1200;
-		const refreshTime = parseInt(decoded.iat) + 10;
+		const refreshTime = parseInt(decoded.iat) + 1200;
 		const currentTime = Math.floor(Date.now() / 1000);
 
 		if (currentTime > refreshTime && currentTime < expireTime) {
