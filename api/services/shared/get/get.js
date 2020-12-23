@@ -57,7 +57,7 @@ getList.getIt = async (table, body, userData, authLevel, roleLevel) => {
 
 				if (authLevel == 4 || authLevel == 3) {
 					// You may only 'get' where ID_USER is the same as token id_user
-					if (result.rows[0].hasOwnProperty("id_user")) {
+					if (result.rows[0] && result.rows[0].hasOwnProperty("id_user")) {
 						var countDown = result.rows.length;
 						while (countDown--) {
 							// have to do reverse loop because splice changes index of array
@@ -80,7 +80,7 @@ getList.getIt = async (table, body, userData, authLevel, roleLevel) => {
 				//console.log(result.rows);
 				if (authLevel == 4 || authLevel == 3) {
 					// You may only 'get' where ID_USER is the same as token id_user
-					if (result.rows[0].hasOwnProperty("id_user")) {
+					if (result.rows[0] && result.rows[0].hasOwnProperty("id_user")) {
 						var i = result.rows.length;
 						while (i--) {
 							// have to do reverse loop because splice changes index of array
