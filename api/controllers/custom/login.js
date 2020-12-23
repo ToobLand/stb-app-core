@@ -1,6 +1,6 @@
 const custom_service_login_sql = require("../../services/custom/login/login");
 
-const login = async (body, table) => {
+const login = async (body, table, userData, authLevel, roleLevel) => {
 	try {
 		let result = await custom_service_login_sql.login(body);
 		if (result instanceof Error) {

@@ -1,13 +1,13 @@
 {
 	"readme_for_crud_services": [
-		" ------------1st value -- Privacy level ------",
+		" ------------1st value -- auth level ------",
 		"0 = Disabled",
 		"1 = Enabled for every request from everybody",
 		"2 = Everbody that is logged in and admins",
 		"3 = Everbody that is logged in and is connected to content and admins",
 		"4 = Enabled if id_user in table is same as active login and admins",
 		"5 = Enabled only for admins",
-		" ------------2nd value---what role----------- ",
+		" ------------2nd value--- role level----------- ",
 		"0 = for every role user",
 		"1 = for teacher role",
 		"2 = for student"

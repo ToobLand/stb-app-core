@@ -41,6 +41,7 @@ module.exports = async (req, res, next) => {
 		}
 	}
 	req.authLevel = auth_level;
+	req.roleLevel = role_level;
 	if (auth_level === 0) {
 		return res.status(401).json({
 			message: "No permission for request [code: actionIsBlocked]",

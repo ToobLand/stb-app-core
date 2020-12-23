@@ -3,12 +3,30 @@ const validator = require("validator");
 
 const functionsList = {};
 
-functionsList.validateSchema = async (title, body, type) => {
+functionsList.validateSchema = async (
+	title,
+	body,
+	type,
+	userData,
+	authLevel,
+	roleLevel
+) => {
 	if (title == "") {
 		return new Error("error in script. titel van object mee geven");
 	} else {
 		const schema = require("../../../model/" + title + "/schema.json");
 		var values = {};
+		if (schema.columns.hasOwnProperty("id_user")) {
+			if (type == "new") {
+				body.id_user = userData.id;
+			}
+			if (type == "update" && (authLevel == 3 || authLevel == 4)) {
+				if (body.hasOwnProperty("id_user")) {
+					delete body.id_user;
+				}
+			}
+		}
+
 		for (var key in schema.columns) {
 			if (body.hasOwnProperty(key)) {
 				let get_condition = false; // for get requests it's possible to send a condition. so make sure it's correct and doesn't break this function

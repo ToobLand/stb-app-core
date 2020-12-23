@@ -20,7 +20,13 @@ router.post("/:field", checkAuth, async (req, res, next) => {
 			if (req.baseUrl === "/delete") {
 				controllerShared = require("../controllers/shared/delete");
 			}
-			result = await controllerShared(req.body, table);
+			result = await controllerShared(
+				req.body,
+				table,
+				req.userData,
+				req.authLevel,
+				req.roleLevel
+			);
 		} else if (endpoints.custom.hasOwnProperty(table)) {
 			if (req.baseUrl === "/save") {
 				controllerCustom = require("../controllers/custom/save");
@@ -35,7 +41,13 @@ router.post("/:field", checkAuth, async (req, res, next) => {
 				controllerCustom = require(`../controllers/${endpoints.custom[table].controller}`);
 			}
 
-			result = await controllerCustom(req.body, table);
+			result = await controllerCustom(
+				req.body,
+				table,
+				req.userData,
+				req.authLevel,
+				req.roleLevel
+			);
 		} else {
 			res
 				.status(404)
@@ -45,13 +57,11 @@ router.post("/:field", checkAuth, async (req, res, next) => {
 			res.status(500).json({ type: req.baseUrl, error: result.message });
 		} else {
 			if (res.refreshToken) {
-				res
-					.status(200)
-					.json({
-						refreshToken: res.refreshToken,
-						type: req.baseUrl,
-						result: result,
-					});
+				res.status(200).json({
+					refreshToken: res.refreshToken,
+					type: req.baseUrl,
+					result: result,
+				});
 			} else {
 				res.status(200).json({ type: req.baseUrl, result: result });
 			}
