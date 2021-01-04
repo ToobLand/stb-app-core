@@ -1,5 +1,5 @@
 connect_postgres = require("../connection/postgres");
-const functionsList = require("../san_esc_val/validate"); // sanitize , escape and validate client data
+const functionsList = require("../../utils/validate"); // sanitize , escape and validate client data
 
 const getList = {};
 getList.getIt = async (table, body, userData, authLevel, roleLevel) => {

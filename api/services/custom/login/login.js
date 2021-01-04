@@ -3,10 +3,17 @@ const keys = require("../../../config/config.json");
 const getList = require("../../shared/get/get");
 const saveList = require("../../shared/save/save");
 const bcrypt = require("bcryptjs");
+const validator = require("validator");
 
 const loginList = {};
 loginList.login = async (body) => {
-	const username = body.email;
+	let cleanUp = body.email;
+	if (validator.isEmail(cleanUp)) {
+		cleanUp = validator.normalizeEmail(cleanUp, { all_lowercase: true });
+	} else {
+		return new Error(" Username Has to be an valid e-mailadress");
+	}
+	const username = cleanUp;
 	const password = body.password;
 	let result;
 	try {

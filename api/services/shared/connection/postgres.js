@@ -1,7 +1,12 @@
 const { Client } = require("pg");
 let client;
 const make_connection = async () => {
-	var local = false; // if deploying on Heroku use local = false
+	let local;
+	if (process.env.NODE_ENV === "development") {
+		local = true;
+	} else {
+		local = false;
+	}
 
 	if (local) {
 		client = new Client({

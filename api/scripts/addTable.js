@@ -1,11 +1,10 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-connect_postgres=require('../data/postgres');
+connect_postgres = require("../data/postgres");
 
-router.get('/', async (req,res,next)=>{
-
-    ///////// CHANGE NEXT VALUE TO WORK ////////
-/*
+router.get("/", async (req, res, next) => {
+	///////// CHANGE NEXT VALUE TO WORK ////////
+	/*
 const table='users';
 let client;
 try{
@@ -13,7 +12,7 @@ try{
 }catch(err){
     return new Error(err);
 }
-schema=require('../model/'+table+'/schema.json');
+schema=require('../schemas/'+table+'/schema.json');
 let query_arr=[];
 for (var key in schema.columns) {
     if(schema.columns[key].key==1 && key=='id'){
@@ -84,6 +83,5 @@ try{
    created_on TIMESTAMP NOT NULL,
    last_login TIMESTAMP
 ) */
-
 });
-module.exports=router;
+module.exports = router;

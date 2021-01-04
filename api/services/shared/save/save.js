@@ -1,8 +1,26 @@
 connect_postgres = require("../connection/postgres");
-const functionsList = require("../san_esc_val/validate"); // sanitize , escape and validate client data
-
+const functionsList = require("../../utils/validate"); // sanitize , escape and validate client data
+const positionList = require("../../utils/position");
+const userCheckList = require("../../utils/userCheck");
 const saveList = {};
 saveList.saveNew = async (table, body, userData, authLevel, roleLevel) => {
+	//// Check Id_user - set id_user automatically in body when needed for auth permissions later // --------------------------------------------
+	await userCheckList.checkNewRecord(table, userData, body);
+
+	///// check position - set position automatically in Body if needed // -----------------------------------------------
+	if (body.position) {
+		return new Error(
+			"TO DO, Not possible to force a new position with new record [error: CannotForcePositionWithSaveNew]"
+		);
+	} else {
+		try {
+			await positionList.newPosition(table, body);
+		} catch (err) {
+			return new Error(err);
+		}
+	}
+
+	// Validate, Sanitize & escape values in Body with settings from models/x/schema.json // ----------------
 	let cleanBody;
 	try {
 		cleanBody = await functionsList.validateSchema(
@@ -12,7 +30,7 @@ saveList.saveNew = async (table, body, userData, authLevel, roleLevel) => {
 			userData,
 			authLevel,
 			roleLevel
-		); // validate, sanitize, escape body data
+		);
 		if (cleanBody instanceof Error) {
 			return new Error(cleanBody.message);
 		}
@@ -20,6 +38,7 @@ saveList.saveNew = async (table, body, userData, authLevel, roleLevel) => {
 		return new Error(err);
 	}
 
+	////// Save new record in DB - make up the query // --------------------------------------------
 	try {
 		let client = await connect_postgres();
 		let queryA = "";
@@ -57,6 +76,7 @@ saveList.saveNew = async (table, body, userData, authLevel, roleLevel) => {
 };
 
 saveList.saveUpdate = async (table, body, userData, authLevel, roleLevel) => {
+	// Validate, sanitize and escape values from body // -----------------------------------------------
 	let cleanBody;
 	try {
 		cleanBody = await functionsList.validateSchema(
@@ -66,31 +86,32 @@ saveList.saveUpdate = async (table, body, userData, authLevel, roleLevel) => {
 			userData,
 			authLevel,
 			roleLevel
-		); // validate, sanitize, escape body data
+		);
 	} catch (err) {
 		return new Error(err);
 	}
-
+	// Check auth Permission for record to update // -----------------------------------------------------
 	if (authLevel == 4 || authLevel == 3) {
 		// You may only 'update' where ID_USER is the same as token id_user
-		let client = await connect_postgres();
-		try {
-			const val = [cleanBody.id];
-			let result = await client.query(
-				"SELECT id_user FROM " + table + " WHERE id= $1",
-				val
-			);
-			client.end();
-			if (result.rows[0].id_user != userData.id) {
-				return new Error(
-					"Blocked, You may not update this. [error: IdUsersDontMatch]"
-				);
-			}
-		} catch (err) {
-			return new Error(err);
+		const checkPermission = await userCheckList.checkUpdateRecord(
+			table,
+			userData,
+			cleanBody
+		);
+		if (checkPermission instanceof Error) {
+			return checkPermission;
 		}
 	}
 
+	// position - update position in db & update affected siblings // -------------------------------
+	if (cleanBody.position) {
+		const updatePos = await positionList.updatePosition(table, cleanBody);
+		if (updatePos instanceof Error) {
+			return updatePos;
+		}
+	}
+
+	// Make up and run query to update record in DB // -------------------------------------------------------
 	try {
 		let client = await connect_postgres();
 		let queryA = "";

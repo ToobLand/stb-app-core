@@ -7,8 +7,18 @@
 		"node": "10.13.0"
 	},
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
+		"test": "jest",
 		"start": "node server.js"
+	},
+	"nodemonConfig": {
+		"restartable": "rs",
+		"ignore": [
+			"node_modules/**/node_modules"
+		],
+		"delay": "2500",
+		"env": {
+			"NODE_ENV": "development"
+		}
 	},
 	"repository": {
 		"type": "git",
@@ -32,5 +42,8 @@
 		"nodemon": "^2.0.6",
 		"pg": "^7.18.2",
 		"validator": "^12.2.0"
+	},
+	"devDependencies": {
+		"jest": "^26.6.3"
 	}
 }
