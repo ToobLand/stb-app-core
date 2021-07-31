@@ -1,4 +1,4 @@
-connect_postgres = require("../connection/postgres");
+const connect_postgres = require("../connection/postgres");
 const functionsList = require("../../utils/validate"); // sanitize , escape and validate client data
 
 const getList = {};

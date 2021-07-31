@@ -21,35 +21,36 @@ module.exports = async (req, res, next) => {
 			auth_level = endpoints.shared[table].delete[0];
 			role_level = endpoints.shared[table].delete[1];
 		}
-	}
-	if (endpoints.custom.hasOwnProperty(table)) {
-		if (req.baseUrl === "/save") {
-			auth_level = endpoints.custom[table].save[0];
-			role_level = endpoints.custom[table].save[1];
-		}
-		if (req.baseUrl === "/get") {
-			auth_level = endpoints.custom[table].get[0];
-			role_level = endpoints.custom[table].get[1];
-		}
-		if (req.baseUrl === "/delete") {
-			auth_level = endpoints.custom[table].delete[0];
-			role_level = endpoints.custom[table].delete[1];
-		}
+	} else if (endpoints.custom.hasOwnProperty(table)) {
 		if (req.baseUrl === "/custom") {
 			auth_level = endpoints.custom[table][table][0];
 			role_level = endpoints.custom[table][table][1];
 		}
+	} else {
+		return res.status(404).json({
+			message: "Endpoint does not exist [code: NoEndPointCheckAuth]",
+		});
 	}
 	req.authLevel = auth_level;
 	req.roleLevel = role_level;
-	if (auth_level === 0) {
+	if (process.env.NODE_ENV === "development") {
+		req.userData = {
+			email: 'tobias_landman@hotmail.com',
+			id: 2,
+			role: 5,
+			unique: 'bullshit_hash',
+		}
+		next();
+	}else if (auth_level === 0) {
 		return res.status(401).json({
 			message: "No permission for request [code: actionIsBlocked]",
 		});
 	}
-	if (auth_level >= 2) {
+	else if (auth_level >= 2) {
 		let decoded;
 		try {
+			
+
 			const token = req.headers.authorization.split(" ")[1];
 			decoded = jwt.verify(token, keys.keys.JWT_KEY);
 			req.userData = decoded;
@@ -67,6 +68,7 @@ module.exports = async (req, res, next) => {
 						"No permission for request [code: differentRolePermissionNeeded]",
 				});
 			}
+		
 		} catch (error) {
 			return res.status(401).json({
 				message: "Auth failed. [code: corruptToken]",

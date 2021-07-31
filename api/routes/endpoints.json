@@ -23,7 +23,7 @@
 		"users": { "save": [1, 0], "get": [4, 0], "delete": [4, 0] }
 	},
 	"custom": {
-		"excercise": { "save": [1, 1], "get": [1, 1], "delete": [1, 1] },
+		"exercise": { "controller": "custom/exercise.js", "exercise": [2, 0] },
 		"login": { "controller": "custom/login.js", "login": [1, 0] }
 	}
 }

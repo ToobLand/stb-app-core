@@ -13,12 +13,14 @@ router.post("/:field", checkAuth, async (req, res, next) => {
 		if (endpoints.shared.hasOwnProperty(table)) {
 			if (req.baseUrl === "/save") {
 				controllerShared = require("../controllers/shared/save");
-			}
-			if (req.baseUrl === "/get") {
+			} else if (req.baseUrl === "/get") {
 				controllerShared = require("../controllers/shared/get");
-			}
-			if (req.baseUrl === "/delete") {
+			} else if (req.baseUrl === "/delete") {
 				controllerShared = require("../controllers/shared/delete");
+			}else{
+				res
+				.status(404)
+				.json({ type: req.baseUrl, error: "Object does not exist" });
 			}
 			result = await controllerShared(
 				req.body,
@@ -28,17 +30,12 @@ router.post("/:field", checkAuth, async (req, res, next) => {
 				req.roleLevel
 			);
 		} else if (endpoints.custom.hasOwnProperty(table)) {
-			if (req.baseUrl === "/save") {
-				controllerCustom = require("../controllers/custom/save");
-			}
-			if (req.baseUrl === "/get") {
-				controllerCustom = require("../controllers/custom/get");
-			}
-			if (req.baseUrl === "/delete") {
-				controllerCustom = require("../controllers/custom/delete");
-			}
 			if (req.baseUrl === "/custom") {
 				controllerCustom = require(`../controllers/${endpoints.custom[table].controller}`);
+			}else{
+				res
+				.status(404)
+				.json({ type: req.baseUrl, error: "Object does not exist" });
 			}
 
 			result = await controllerCustom(
