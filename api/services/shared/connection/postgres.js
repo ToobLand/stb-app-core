@@ -9,9 +9,10 @@ const make_connection = async () => {
 	}
 
 	if (local) {
+		// isn't active anymore. 
 		client = new Client({
 			connectionString:
-				"postgres://tayubeifavhsby:4434a4e4e39afd31079df83a58120a6b56e21cefca7654210d8ca0e9609169a9@ec2-54-228-243-238.eu-west-1.compute.amazonaws.com:5432/dkve6sn5khpje",
+				"TO DO: SETUP NEW LOCAL POSTGRESS DB. HEROKU IS CANCELLED ",
 			ssl: true,
 		});
 	} else {
